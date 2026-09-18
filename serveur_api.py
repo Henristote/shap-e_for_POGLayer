@@ -12,7 +12,7 @@ from shap_e.models.download import load_model, load_config
 from shap_e.util.notebooks import decode_latent_mesh
 
 # Définition du format de la requête attendue depuis Unity
-class RequeteGeneration(BaseModel):
+class GenerationRequest(BaseModel):
     prompt: str
 
 # Initialisation de l'API
@@ -25,8 +25,8 @@ model = load_model('text300M', device=device)
 diffusion = diffusion_from_config(load_config('diffusion'))
 
 @app.post("/generer")
-async def generer_objet(requete: RequeteGeneration):
-    prompt = requete.prompt
+async def generer_objet(request: GenerationRequest):
+    prompt = request.prompt
     batch_size = 1
     guidance_scale = 15.0
 
@@ -48,16 +48,16 @@ async def generer_objet(requete: RequeteGeneration):
     )
 
     # Sauvegarde de l'objet au format GLB
-    nom_fichier = requete.prompt.replace(" ", "_")
+    fileName = request.prompt.replace(" ", "_")
     t = decode_latent_mesh(xm, latents[0]).tri_mesh()
-    with open(f'{nom_fichier}.ply', 'wb') as f:
+    with open(f'{fileName}.ply', 'wb') as f:
         t.write_ply(f)
-    mesh = trimesh.load(f'{nom_fichier}.ply')
+    mesh = trimesh.load(f'{fileName}.ply')
     rotation_matrix = trimesh.transformations.rotation_matrix(
         np.radians(-90), [1, 0, 0]
     )
     mesh.apply_transform(rotation_matrix)
-    mesh.export(f'{nom_fichier}.glb')
+    mesh.export(f'{fileName}.glb')
     
     # Retourne le fichier 3D directement à l'application appelante
-    return FileResponse(f'{nom_fichier}.glb', media_type='application/octet-stream', filename=f'{nom_fichier}.glb')
+    return FileResponse(f'{fileName}.glb', media_type='application/octet-stream', filename=f'{fileName}.glb')

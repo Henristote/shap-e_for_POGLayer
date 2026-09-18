@@ -1,5 +1,7 @@
 __pycache__/
 .DS_Store
 *.egg-info/
-venv/
 shape_e_model_cache/
+
+# env folders
+venv/

@@ -105,17 +105,19 @@ cloudflared tunnel --url http://localhost:5000
 The tool will analyze your connection and generate a secure, temporary public address (typically in the format `https://your-tunnel.trycloudflare.com`). You will need to copy this specific URL and integrate it into the C# script in your Unity project. From that point on, voice requests from your game will travel across the Internet to reach this tunnel, triggering the generation of the 3D mesh directly on your host computer.
 
 #
+
 #
+
 #
-#
+
 #
 
 # Shap-E (original README)
 
 This is the official code and model release for [Shap-E: Generating Conditional 3D Implicit Functions](https://arxiv.org/abs/2305.02463).
 
- * See [Usage](#usage) for guidance on how to use this repository.
- * See [Samples](#samples) for examples of what our text-conditional model can generate.
+- See [Usage](#usage) for guidance on how to use this repository.
+- See [Samples](#samples) for examples of what our text-conditional model can generate.
 
 # Samples
 
@@ -180,6 +182,6 @@ Install with `pip install -e .`.
 
 To get started with examples, see the following notebooks:
 
-* [sample_text_to_3d.ipynb](shap_e/examples/sample_text_to_3d.ipynb) - sample a 3D model, conditioned on a text prompt.
-* [sample_image_to_3d.ipynb](shap_e/examples/sample_image_to_3d.ipynb) - sample a 3D model, conditioned on a synthetic view image. To get the best result, you should remove background from the input image.
-* [encode_model.ipynb](shap_e/examples/encode_model.ipynb) - loads a 3D model or a trimesh, creates a batch of multiview renders and a point cloud, encodes them into a latent, and renders it back. For this to work, install Blender version 3.3.1 or higher, and set the environment variable `BLENDER_PATH` to the path of the Blender executable.
+- [sample_text_to_3d.ipynb](shap_e/examples/sample_text_to_3d.ipynb) - sample a 3D model, conditioned on a text prompt.
+- [sample_image_to_3d.ipynb](shap_e/examples/sample_image_to_3d.ipynb) - sample a 3D model, conditioned on a synthetic view image. To get the best result, you should remove background from the input image.
+- [encode_model.ipynb](shap_e/examples/encode_model.ipynb) - loads a 3D model or a trimesh, creates a batch of multiview renders and a point cloud, encodes them into a latent, and renders it back. For this to work, install Blender version 3.3.1 or higher, and set the environment variable `BLENDER_PATH` to the path of the Blender executable.
