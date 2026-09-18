@@ -1,5 +1,6 @@
 import torch
 import trimesh
+import numpy as np
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
@@ -52,8 +53,11 @@ async def generer_objet(requete: RequeteGeneration):
     with open(f'{nom_fichier}.ply', 'wb') as f:
         t.write_ply(f)
     mesh = trimesh.load(f'{nom_fichier}.ply')
+    rotation_matrix = trimesh.transformations.rotation_matrix(
+        np.radians(-90), [1, 0, 0]
+    )
+    mesh.apply_transform(rotation_matrix)
     mesh.export(f'{nom_fichier}.glb')
-    decode_latent_mesh(xm, latents[0]).tri_mesh().export(nom_fichier)
-
+    
     # Retourne le fichier 3D directement à l'application appelante
-    return FileResponse(nom_fichier, media_type='application/octet-stream', filename=nom_fichier)
+    return FileResponse(f'{nom_fichier}.glb', media_type='application/octet-stream', filename=f'{nom_fichier}.glb')
